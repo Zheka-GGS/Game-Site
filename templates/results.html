@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результати пошуку ігор</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/results.css') }}">
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    
+    <div class="container">
+        <nav class="navbar">
+            <a class="navbar-brand" href="/">🎮 GameHub</a>
+            <ul class="navbar-nav">
+                <li><a href="/">Головна</a></li>
+                <li><a href="/search">Пошук</a></li>
+                <li><a href="/api/games">API</a></li>
+            </ul>
+        </nav>
+        
+        <div class="header">
+            <h1>🎮 Результати пошуку</h1>
+        </div>
+        
+        {% if games %}
+            <div class="games-grid">
+                {% for game in games %}
+                <div class="game-card">
+                    <img src="{{ game.thumbnail }}" alt="{{ game.title }}" class="game-image">
+                    <div class="game-info">
+                        <div class="game-title">{{ game.title }}</div>
+                        <div class="game-description">{{ game.short_description }}</div>
+                        <div class="game-meta">
+                            <span>🎯 {{ game.genre }}</span>
+                            <span>💻 {{ game.platform }}</span>
+                            <a href="{{ game.game_url }}" target="_blank" class="btn-play">▶️ Грати</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-results">
+                <p>На жаль, ігор не знайдено. Спробуйте інший запит.</p>
+            </div>
+        {% endif %}
+        
+        <div class="back-link">
+            <a href="/">← Повернутися до головної</a>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 GameHub. Всі права захищені.</p>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const toggle = document.querySelector('.theme-toggle');
+            toggle.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
+        }
+    </script>
+</body>
+</html>
